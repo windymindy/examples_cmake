@@ -1,0 +1,22 @@
+function(build_types result)
+
+    set(result_ "")
+    get_cmake_property(is_multiple_build_types GENERATOR_IS_MULTI_CONFIG)
+    if(is_multiple_build_types)
+        if(CMAKE_CONFIGURATION_TYPES)
+            foreach(build_type IN LISTS CMAKE_CONFIGURATION_TYPES)
+                string(TOUPPER "${build_type}" build_type)
+                list(APPEND result_ "${build_type}")
+            endforeach()
+        endif()
+    else()
+        if(CMAKE_BUILD_TYPE)
+            string(TOUPPER "${CMAKE_BUILD_TYPE}" build_type)
+            list(APPEND result_ "${build_type}")
+        endif()
+    endif()
+    set(${result} ${result_} PARENT_SCOPE)
+
+endfunction()
+
+build_types(build_types)
